@@ -1,5 +1,8 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
 import 'main.dart';
 
 class SecondScreen extends StatefulWidget {
@@ -8,8 +11,43 @@ class SecondScreen extends StatefulWidget {
 }
 
 class _State extends State<SecondScreen> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController desiredpassword = TextEditingController();
+  TextEditingController lastname = TextEditingController();
+  TextEditingController firstname = TextEditingController();
+  TextEditingController contactnumber = TextEditingController();
+
+  Future register() async {
+    var url = "http://192.168.254.109/carrental/register.php";
+    var response = await http.post(url, body: {
+      "email": email.text,
+      "desiredpassword": desiredpassword.text,
+      "lastname": lastname.text,
+      "firstname": firstname.text,
+      "contactnumber": contactnumber.text,
+    });
+    var data = json.encode(response.body);
+    if (data == "error") {
+      Fluttertoast.showToast(
+          msg: "This user already exist",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    } else {
+      Fluttertoast.showToast(
+          msg: "Registered Succesfully",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,8 +84,9 @@ class _State extends State<SecondScreen> {
                 Container(
                   padding: EdgeInsets.all(10),
                   child: TextField(
-                    controller: nameController,
+                    controller: email,
                     decoration: InputDecoration(
+                      hintText: 'you@example.com',
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -62,8 +101,9 @@ class _State extends State<SecondScreen> {
                   padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                   child: TextField(
                     obscureText: true,
-                    controller: passwordController,
+                    controller: desiredpassword,
                     decoration: InputDecoration(
+                      hintText: 'Password',
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -77,7 +117,9 @@ class _State extends State<SecondScreen> {
                 Container(
                   padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                   child: TextField(
+                    controller: lastname,
                     decoration: InputDecoration(
+                      hintText: 'Your Lastname',
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -91,21 +133,9 @@ class _State extends State<SecondScreen> {
                 Container(
                   padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                   child: TextField(
+                    controller: firstname,
                     decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                ),
-                Container(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Gender',
-                      style: TextStyle(fontSize: 12, color: Color(0xffFF1744)),
-                    )),
-                Container(
-                  padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                  child: TextField(
-                    decoration: InputDecoration(
+                      hintText: 'Your Firstname',
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -119,7 +149,9 @@ class _State extends State<SecondScreen> {
                 Container(
                   padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                   child: TextField(
+                    controller: contactnumber,
                     decoration: InputDecoration(
+                      hintText: '+639*********',
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -138,8 +170,12 @@ class _State extends State<SecondScreen> {
                       color: Colors.pink,
                       child: Text('Submit'),
                       onPressed: () {
-                        print(nameController.text);
-                        print(passwordController.text);
+                        register();
+                        print(email.text);
+                        print(desiredpassword.text);
+                        print(lastname.text);
+                        print(firstname.text);
+                        print(contactnumber.text);
                       },
                     )),
                 Container(
