@@ -26,7 +26,7 @@ class _State extends State<SecondScreen> {
       "firstname": firstname.text,
       "contactnumber": contactnumber.text,
     });
-    var data = json.encode(response.body);
+    var data = json.decode(response.body);
     if (data == "error") {
       Fluttertoast.showToast(
           msg: "This user already exist",
@@ -45,6 +45,7 @@ class _State extends State<SecondScreen> {
           backgroundColor: Colors.red,
           textColor: Colors.white,
           fontSize: 16.0);
+      Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
     }
   }
 
@@ -171,11 +172,11 @@ class _State extends State<SecondScreen> {
                       child: Text('Submit'),
                       onPressed: () {
                         register();
-                        print(email.text);
-                        print(desiredpassword.text);
-                        print(lastname.text);
-                        print(firstname.text);
-                        print(contactnumber.text);
+                        // print(email.text);
+                        // print(desiredpassword.text);
+                        // print(lastname.text);
+                        // print(firstname.text);
+                        // print(contactnumber.text);
                       },
                     )),
                 Container(
