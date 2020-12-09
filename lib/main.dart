@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:ui_controls/welcome.dart';
 import 'signup.dart';
+import 'welcome.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -27,8 +27,8 @@ class _State extends State<MyApp> {
       "email": email.text,
       "desiredpassword": desiredpassword.text,
     });
-    var user = json.decode(response.body);
-    if (user == "Success") {
+    var data = json.decode(response.body);
+    if (data == "Success") {
       Fluttertoast.showToast(
           msg: "Login Successful",
           toastLength: Toast.LENGTH_SHORT,
@@ -39,6 +39,15 @@ class _State extends State<MyApp> {
           fontSize: 16.0);
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => Welcome()));
+    } else {
+      Fluttertoast.showToast(
+          msg: "Username and Password Incorrect",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
     }
   }
 
@@ -117,6 +126,8 @@ class _State extends State<MyApp> {
                       child: Text('Sign In'),
                       onPressed: () {
                         login();
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => MyApp()));
                       },
                     )),
                 FlatButton(
