@@ -37,8 +37,13 @@ class _State extends State<MyApp> {
           backgroundColor: Colors.red,
           textColor: Colors.white,
           fontSize: 16.0);
+<<<<<<< HEAD
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => CarsOverviewScreen()));
+=======
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => Welcome()));
+>>>>>>> b1bd601fe37faeae55c2417d257eddde739b03bf
     } else {
       Fluttertoast.showToast(
           msg: "Username and Password Incorrect",
