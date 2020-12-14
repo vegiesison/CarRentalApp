@@ -8,6 +8,7 @@ class CarsOverviewScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         centerTitle: true,
         elevation: 0,
         title: Text('okCar', style: SubHeading),
