@@ -6,12 +6,12 @@ class CarsOverviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
         elevation: 0,
-        title: Text('okCar', style: SubHeading),
+        title: Text('Rent&Run', style: SubHeading),
       ),
       body: ListView(
         children: [
