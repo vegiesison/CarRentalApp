@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'signup.dart';
-import 'welcome.dart';
+import 'cars_overview.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -37,8 +37,8 @@ class _State extends State<MyApp> {
           backgroundColor: Colors.red,
           textColor: Colors.white,
           fontSize: 16.0);
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Welcome()));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => CarsOverviewScreen()));
     } else {
       Fluttertoast.showToast(
           msg: "Username and Password Incorrect",
