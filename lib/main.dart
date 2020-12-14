@@ -1,21 +1,56 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
- 
+import 'package:fluttertoast/fluttertoast.dart';
+import 'signup.dart';
+import 'welcome.dart';
+
 void main() {
   runApp(MaterialApp(
     home: MyApp(),
     theme: new ThemeData(scaffoldBackgroundColor: const Color(0xFFEFEFEF)),
   ));
 }
- 
+
 class MyApp extends StatefulWidget {
   @override
   _State createState() => _State();
 }
- 
+
 class _State extends State<MyApp> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
- 
+  TextEditingController email = TextEditingController();
+  TextEditingController desiredpassword = TextEditingController();
+
+  Future login() async {
+    var url = "http://192.168.254.109/carrental/login.php";
+    var response = await http.post(url, body: {
+      "email": email.text,
+      "desiredpassword": desiredpassword.text,
+    });
+    var data = json.decode(response.body);
+    if (data == "Success") {
+      Fluttertoast.showToast(
+          msg: "Login Successful",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => CarsOverviewScreen()));
+    } else {
+      Fluttertoast.showToast(
+          msg: "Username and Password Incorrect",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +94,7 @@ class _State extends State<MyApp> {
                 Container(
                   padding: EdgeInsets.all(10),
                   child: TextField(
-                    controller: nameController,
+                    controller: email,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                     ),
@@ -75,28 +110,28 @@ class _State extends State<MyApp> {
                   padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                   child: TextField(
                     obscureText: true,
-                    controller: passwordController,
+                    controller: desiredpassword,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                     ),
                   ),
                 ),
                 Container(child: Text('')),
-                
                 Container(
-                  height: 50,
+                    height: 50,
                     padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
                     child: RaisedButton(
                       textColor: Colors.white,
                       color: Colors.pink,
                       child: Text('Sign In'),
                       onPressed: () {
-                        print(nameController.text);
-                        print(passwordController.text);
+                        login();
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => MyApp()));
                       },
                     )),
                 FlatButton(
-                  onPressed: (){
+                  onPressed: () {
                     //forgot password screen
                   },
                   textColor: Colors.blue,
@@ -110,43 +145,42 @@ class _State extends State<MyApp> {
                       style: TextStyle(fontSize: 12),
                     )),
                 Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        RaisedButton(
-                          textColor: Colors.white,
-                          color: Colors.cyan,
-                          child: Text('Twitter'),
-                          onPressed: (){
-                          },
-                          
-                     ),
-                        RaisedButton(
-                          textColor: Colors.white,
-                          color: Colors.blue,
-                          child: Text('Facebook'),
-                          onPressed: (){
-                          },
-                     )
-                      
-                      ],
-                    ),
-                ),
-                Container(
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text('Not yet registered?'),
-                      FlatButton(
-                        textColor: Colors.pink,
-                        child: Text(
-                          'Sign Up',
-                        ),
-                        onPressed: () {
-                          //signup screen
-                        },
+                      RaisedButton(
+                        textColor: Colors.white,
+                        color: Colors.cyan,
+                        child: Text('Twitter'),
+                        onPressed: () {},
+                      ),
+                      RaisedButton(
+                        textColor: Colors.white,
+                        color: Colors.blue,
+                        child: Text('Facebook'),
+                        onPressed: () {},
                       )
                     ],
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  ),
+                ),
+                Container(
+                    child: Row(
+                  children: <Widget>[
+                    Text('Not yet registered?'),
+                    FlatButton(
+                      textColor: Colors.pink,
+                      child: Text(
+                        'Sign Up',
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SecondScreen()));
+                      },
+                    )
+                  ],
+                  mainAxisAlignment: MainAxisAlignment.center,
                 ))
               ],
             )));
